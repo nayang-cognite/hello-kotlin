@@ -8,11 +8,6 @@ fun hello() {
     println("Hello $name!")
 }
 
-//fun formatTime(dt: long) {
-//    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss.SSS")
-//    val currentDate = sdf.format(Date())
-//}
-
 fun Log(log: String, TimeMillis: Long = 0) {
     val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss.SSS")
     var dt = if (TimeMillis == 0.toLong()) Date() else Date(TimeMillis)
@@ -282,8 +277,40 @@ fun function() {
     println(product3)
 }
 
+fun function2() {
+    val sum: Int.(Int) -> Int = { other -> plus(other) }
+    println(5.sum(1))
+
+    val repeatFun : String.(Int) -> String = {times -> this.repeat(times)}
+    println("a".repeatFun(5))
+
+    val repeatFun2 : (String, Int) -> String = {a, b -> a.repeat(b)}
+    println(repeatFun2("a", 5))
+
+    fun runRepeatFun(f: (String, Int) -> String) : String {
+        return f("a", 10)
+    }
+    println(runRepeatFun(repeatFun))
+    println(runRepeatFun(repeatFun2))
+}
+
+fun foo() {
+    listOf(1, 2, 3, 4, 5).forEach {
+        if (it == 3) return // non-local return directly to the caller of foo()
+        println(it)
+    }
+    println("this point is unreachable")
+}
+
+fun foo2() {
+    var a = listOf(5, 1, 2, 3).filter {
+        val shouldFilter = it > 2
+        shouldFilter
+    }.forEach{println(it)}
+}
+
 fun main(args: Array<String>) {
-    main11()
+    foo2()
 }
 
 
